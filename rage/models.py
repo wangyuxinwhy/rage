@@ -37,7 +37,9 @@ def generate_structure[T: BaseModel](
             return structure_type.model_validate_json(json_string)
         except Exception as e:
             num_reask += 1
-            prompt.append(UserMessage(content=f"I got an error, please try to fix your output based on the error message. Error: {e}"))
+            prompt.append(
+                UserMessage(content=f"I got an error, please try to fix your output based on the error message. Error: {e}")
+            )
 
     raise ValueError(f"Failed to generate valid JSON after {max_num_reask} reasks.")
 
@@ -165,9 +167,8 @@ class RageClassifier(RageModel[ClassifierOutput]):
         fields = {}
         if self.cot:
             fields["reason"] = (str, Field(description=cot_reason_description))
-        fields["label"] = (Literal[*tuple(self.label_set)], ...) # type: ignore
-        output_pydantic_model = create_model("ClassifierOutput", **fields)
-        return output_pydantic_model
+        fields["label"] = (Literal[*tuple(self.label_set)], ...)  # type: ignore
+        return create_model("ClassifierOutput", **fields)
 
     @property
     def output_format_section(self) -> str:
