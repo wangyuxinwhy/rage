@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "rage"
+version = "0.1.0"
+description = "Python RAG Evaluation framework"
+authors = ["wangyuxin <wangyuxin@mokahr.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+generate-core = "^0.3.0"
+rouge = "^1.0.1"
+jieba = "^0.42.1"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.15"
+pyright = "^1.1.349"
+pytest = "^8.0.0"
+
+
+[tool.ruff]
+line-length = 128
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "N",
+    "SIM",
+    "A",
+    "T",
+    "PT",
+    "RET",
+    "PL",
+    "TRY",
+    "PERF",
+]
+ignore = [
+    "E501",
+    "TRY003",
+    "SIM108",
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
