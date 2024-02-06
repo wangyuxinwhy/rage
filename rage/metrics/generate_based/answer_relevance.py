@@ -16,7 +16,7 @@ Use the following guidelines for evaluation:
 
 
 class GenerateBasedAnswerRelevance(GenerateBasedMetric[RelevanceResult]):
-    required_fields = {"question", "answer", "generated_answer"}
+    required_fields = {"question", "generated_answer"}
 
     model: RageScorer
 
@@ -39,4 +39,4 @@ class GenerateBasedAnswerRelevance(GenerateBasedMetric[RelevanceResult]):
     def calculate(self, case: RageCase) -> RelevanceResult:
         case = self.refine_case(case)
         score_result = self.model.inference(case)
-        return RelevanceResult(relevance=score_result.score, extra={"reason": score_result.reason or ""})
+        return RelevanceResult(relevance=score_result.score, extra={"reason": getattr(score_result, "reason", None)})

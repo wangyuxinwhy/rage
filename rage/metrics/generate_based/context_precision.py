@@ -43,6 +43,13 @@ class GenerateBasedContextPrecision(GenerateBasedMetric[PresicionResult]):
         verifications: list = []
         num_positive = 0
         precision_at_k: list[float] = []
+        if not case.retrieved_contexts:
+            return PresicionResult(
+                precision_at_k=precision_at_k,
+                average_precision=0,
+                precision=0,
+                extra={"verifications": verifications},
+            )
         for num_context, context in enumerate(case.retrieved_contexts, start=1):
             new_case = case.model_copy(deep=True)
             new_case.retrieved_contexts = [context]

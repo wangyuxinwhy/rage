@@ -1,4 +1,3 @@
-import json
 import re
 from typing import cast
 
@@ -6,40 +5,6 @@ import jieba
 from rouge import Rouge
 
 from rage.results import PrecisionRecallF1Result
-
-
-def is_valid_json(json_str: str) -> bool:
-    try:
-        json.loads(json_str, strict=False)
-    except json.JSONDecodeError:
-        return False
-    return True
-
-
-def extract_json(json_str: str) -> str:
-    # markdown code pattern
-    json_code_pattern = r"```json\n(.*?)```"
-    match = re.search(json_code_pattern, json_str, re.DOTALL)
-    if match and is_valid_json(match.group(1)):
-        return match.group(1)
-
-    code_pattern = r"```(.*?)```"
-    match = re.search(code_pattern, json_str, re.DOTALL)
-    if match and is_valid_json(match.group(1)):
-        return match.group(1)
-
-    inline_code_pattern = r"`(.*?)`"
-    match = re.search(inline_code_pattern, json_str, re.DOTALL)
-    if match and is_valid_json(match.group(1)):
-        return match.group(1)
-
-    raise ValueError(f"Invalid JSON, output should be a valid JSON string. Got: {json_str}")
-
-
-def ensure_valid_json(json_str: str) -> str:
-    if is_valid_json(json_str):
-        return json_str
-    return extract_json(json_str)
 
 
 def split_chinese_sentences(text: str) -> list[str]:

@@ -1,6 +1,6 @@
-from rage.metrics.context_precision_recall_f1 import ContextPrecisionRecallF1
 from rage.metrics.deterministic.answer_correctness import RougeLAnswerCorrectness, WorldOverlapAnswerCorrectness
 from rage.metrics.deterministic.answer_faithfulness import RougeLAnswerFaithfulness, WorldOverlapAnswerFaithfulness
+from rage.metrics.deterministic.context_precision_recall_f1 import ContextPrecisionRecallF1
 from rage.metrics.generate_based.answer_correctness import GenerateBasedAnswerCorrectness
 from rage.metrics.generate_based.answer_faithfulness import GenerateBasedAnswerFaithfulness
 from rage.metrics.generate_based.answer_relevance import GenerateBasedAnswerRelevance

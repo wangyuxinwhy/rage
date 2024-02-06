@@ -7,12 +7,12 @@ from rage.case import RageCase
 
 class RageCaseTemplate(BaseModel, ABC):
     @abstractmethod
-    def format(self, case: RageCase) -> str:
+    def format(self, case: RageCase) -> str:  # noqa: A003
         ...
 
 
 class SimpleCaseTemplate(RageCaseTemplate):
-    def format(self, case: RageCase) -> str:
+    def format(self, case: RageCase) -> str:  # noqa: A003
         text = ""
         if case.question:
             text += "Question: " + case.question + "\n"

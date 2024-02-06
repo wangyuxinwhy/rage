@@ -22,9 +22,18 @@ def rouge_match(retrieved_text: str, ground_truth_text: str, threshold: float = 
 
 
 class ContextPrecisionRecallF1(RageMetric[PrecisionRecallF1Result]):
-    def __init__(self, split_to_sentence: bool = False, match_function: MatchFunction = exact_match) -> None:
+    match_function: MatchFunction
+
+    def __init__(
+        self, split_to_sentence: bool = False, match_function: MatchFunction | Literal["exact", "rouge"] = "rouge"
+    ) -> None:
         self.split_to_sentence = split_to_sentence
-        self.match_function = match_function
+        if match_function == "exact":
+            self.match_function = exact_match
+        elif match_function == "rouge":
+            self.match_function = partial(rouge_match, threshold=0.8)
+        else:
+            self.match_function = match_function
 
     @classmethod
     def from_parameters(

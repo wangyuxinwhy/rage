@@ -42,4 +42,4 @@ class GenerateBasedAnswerCorrectness(GenerateBasedMetric[CorrectnessResult]):
     def calculate(self, case: RageCase) -> CorrectnessResult:
         case = self.refine_case(case)
         score_result = self.model.inference(case)
-        return CorrectnessResult(correctness=score_result.score, extra={"reason": score_result.reason or ""})
+        return CorrectnessResult(correctness=score_result.score, extra={"reason": getattr(score_result, "reason", None)})

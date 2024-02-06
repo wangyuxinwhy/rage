@@ -62,4 +62,7 @@ class GenerateBasedAnswerFaithfulness(GenerateBasedMetric[FaithfulnessResult]):
         classifier_output = self.model.inference(case)
         return FaithfulnessResult(
             faithfulness=self.label_score_mapping[classifier_output.label],
+            extra={
+                "output": classifier_output,
+            },
         )
