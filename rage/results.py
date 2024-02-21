@@ -1,10 +1,12 @@
-from typing import Any
+from __future__ import annotations
+
+from typing import Any, Dict, List
 
 from pydantic import BaseModel
 
 
 class RageResult(BaseModel):
-    extra: dict[str, Any] = {}
+    extra: Dict[str, Any] = {}
 
 
 class RelevanceResult(RageResult):
@@ -18,7 +20,7 @@ class CoverageResult(RageResult):
 class PresicionResult(RageResult):
     precision: float
     average_precision: float
-    precision_at_k: list[float]
+    precision_at_k: List[float]
 
 
 class CorrectnessResult(RageResult):

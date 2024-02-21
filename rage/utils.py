@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 import re
-from typing import cast
+from typing import Dict, cast
 
 import jieba
 from rouge import Rouge
@@ -39,5 +41,5 @@ def caculate_rouge_l_score(text: str, reference_text: str) -> PrecisionRecallF1R
         return PrecisionRecallF1Result(precision=0.0, recall=0.0, f1=0.0)
 
     scores = rouge.get_scores(text, reference_text)[0]["rouge-l"]
-    scores = cast(dict[str, float], scores)
+    scores = cast(Dict[str, float], scores)
     return PrecisionRecallF1Result(precision=scores["p"], recall=scores["r"], f1=scores["f"])

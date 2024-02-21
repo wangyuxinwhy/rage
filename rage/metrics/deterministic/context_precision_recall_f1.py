@@ -1,14 +1,17 @@
+from __future__ import annotations
+
 from functools import partial
-from typing import Callable, Literal, Self
+from typing import Callable, Literal
 
 from rouge import Rouge
+from typing_extensions import Self
 
 from rage.case import RageCase
 from rage.metrics.base import RageMetric
 from rage.results import PrecisionRecallF1Result
 from rage.utils import split_chinese_sentences
 
-type MatchFunction = Callable[[str, str], bool]
+MatchFunction = Callable[[str, str], bool]
 
 
 def exact_match(retrieved_text: str, ground_truth_text: str) -> bool:
@@ -23,6 +26,7 @@ def rouge_match(retrieved_text: str, ground_truth_text: str, threshold: float = 
 
 class ContextPrecisionRecallF1(RageMetric[PrecisionRecallF1Result]):
     match_function: MatchFunction
+    required_fields = {"retrieved_contexts", "contexts"}
 
     def __init__(
         self, split_to_sentence: bool = False, match_function: MatchFunction | Literal["exact", "rouge"] = "rouge"

@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 from abc import ABC
-from typing import Any, Literal, Type, TypedDict, override
+from typing import Any, Generic, List, Literal, Optional, Set, Tuple, Type, TypeVar
+from typing_extensions import TypedDict
 
 from generate import load_chat_model
 from generate.chat_completion.base import RemoteChatCompletionModel
@@ -8,6 +11,7 @@ from generate.chat_completion.message import (
 )
 from generate.modifiers.structure import Example, Structure
 from pydantic import BaseModel, Field, create_model
+from typing_extensions import override
 
 from rage.case import RageCase, RageExample
 from rage.template import RageCaseTemplate, SimpleCaseTemplate
@@ -20,8 +24,10 @@ system_template = """\
 {output_format_description}
 """
 
+T = TypeVar("T", bound=BaseModel)
 
-class RageModelKwargs[T: BaseModel](TypedDict, total=False):
+
+class RageModelKwargs(Generic[T], TypedDict, total=False):
     instruction: str
     examples: list[RageExample[T]]
     model_id: str
@@ -29,18 +35,18 @@ class RageModelKwargs[T: BaseModel](TypedDict, total=False):
     timeout: int
     case_template: RageCaseTemplate
     system_template: str
-    output_structure: Type[T] | None
+    output_structure: Optional[Type[T]]
 
 
-class RageModel[T: BaseModel](BaseModel, ABC):
+class RageModel(BaseModel, Generic[T], ABC):
     instruction: str
-    examples: list[RageExample[T]] = []
+    examples: List[RageExample[T]] = []
     case_template: RageCaseTemplate = Field(default_factory=SimpleCaseTemplate)
     model_id: str = "openai/gpt-4-turbo-preview"
     temperature: float = 0.01
     timeout: int = 120
     system_template: str = system_template
-    output_structure: Type[T] | None = None
+    output_structure: Optional[Type[T]] = None
 
     @property
     def structure_model(self) -> Structure[Any, T]:
@@ -76,7 +82,7 @@ class RageScorerKwargs(RageModelKwargs[ScorerOutput], total=False):
 
 
 class RageScorer(RageModel[ScorerOutput]):
-    score_range: tuple[float, float]
+    score_range: Tuple[float, float]
     normalize: bool = True
     cot: bool = False
 
@@ -112,7 +118,7 @@ class RageClassifierKwargs(RageModelKwargs[ClassifierOutput], total=False):
 
 
 class RageClassifier(RageModel[ClassifierOutput]):
-    label_set: set[str]
+    label_set: Set[str]
     cot: bool = False
 
     def model_post_init(self, __context: Any) -> None:
@@ -126,5 +132,6 @@ class RageClassifier(RageModel[ClassifierOutput]):
         fields = {}
         if self.cot:
             fields["reason"] = (str, Field(description=cot_reason_description))
-        fields["label"] = (Literal[*tuple(self.label_set)], ...)  # type: ignore
+        label_tuple = tuple(self.label_set)
+        fields["label"] = (Literal[label_tuple], ...)  # type: ignore
         return create_model("ClassifierOutput", **fields)  # type: ignore

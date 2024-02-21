@@ -1,6 +1,9 @@
-from typing import Literal, Self, Unpack, override
+from __future__ import annotations
+
+from typing import List, Literal
 
 from pydantic import BaseModel, RootModel
+from typing_extensions import Self, Unpack, override
 
 from rage.case import RageCase
 from rage.metrics.base import GenerateBasedMetric
@@ -16,7 +19,7 @@ class AnswerStatement(BaseModel):
     supported: Literal["Yes", "No"]
 
 
-AnswerStatements = RootModel[list[AnswerStatement]]
+AnswerStatements = RootModel[List[AnswerStatement]]
 
 
 class GenerateBasedContextCoverage(GenerateBasedMetric[CoverageResult]):

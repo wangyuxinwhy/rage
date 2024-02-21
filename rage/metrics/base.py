@@ -1,12 +1,16 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
-from typing import ClassVar
+from typing import ClassVar, Generic, TypeVar
 
 from rage.case import RageCase
 from rage.models import RageModel
 from rage.results import RageResult
 
+T = TypeVar("T", bound=RageResult)
 
-class RageMetric[T: RageResult](ABC):
+
+class RageMetric(Generic[T], ABC):
     required_fields: ClassVar[set[str]] = set()
     optional_fields: ClassVar[set[str]] = set()
 
@@ -25,7 +29,7 @@ class RageMetric[T: RageResult](ABC):
         return RageCase(**values)
 
 
-class GenerateBasedMetric[T: RageResult](RageMetric[T], ABC):
+class GenerateBasedMetric(RageMetric[T], ABC):
     def __init__(self, model: RageModel) -> None:
         self.model = model
         for example in self.model.examples:

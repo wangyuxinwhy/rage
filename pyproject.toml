@@ -7,8 +7,8 @@ license = "Apache-2.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
-generate-core = "^0.3.0"
+python = "^3.8.1"
+generate-core = "^0.3.2"
 rouge = "^1.0.1"
 jieba = "^0.42.1"
 

@@ -1,4 +1,6 @@
-from typing import Self, Unpack
+from __future__ import annotations
+
+from typing_extensions import Self, Unpack
 
 from rage.case import RageCase
 from rage.metrics.base import GenerateBasedMetric

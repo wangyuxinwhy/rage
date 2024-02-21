@@ -1,14 +1,18 @@
+from typing import Generic, List, TypeVar
+
 from pydantic import BaseModel
+
+T = TypeVar("T", bound=BaseModel)
 
 
 class RageCase(BaseModel):
     question: str = ""
-    contexts: list[str] = []
+    contexts: List[str] = []
     answer: str = ""
-    retrieved_contexts: list[str] = []
+    retrieved_contexts: List[str] = []
     generated_answer: str = ""
 
 
-class RageExample[T: BaseModel](BaseModel):
+class RageExample(BaseModel, Generic[T]):
     rage_case: RageCase
     output: T

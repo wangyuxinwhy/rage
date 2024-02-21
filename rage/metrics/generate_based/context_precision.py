@@ -1,4 +1,4 @@
-from typing import Self, Unpack
+from typing_extensions import Self, Unpack
 
 from rage.case import RageCase
 from rage.metrics.base import GenerateBasedMetric
