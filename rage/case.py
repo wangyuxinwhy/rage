@@ -1,4 +1,4 @@
-from typing import Generic, List, TypeVar
+from typing import Any, Dict, Generic, List, TypeVar
 
 from pydantic import BaseModel
 
@@ -11,7 +11,7 @@ class RageCase(BaseModel):
     answer: str = ""
     retrieved_contexts: List[str] = []
     generated_answer: str = ""
-
+    extra: Dict[str, Any] = {}
 
 class RageExample(BaseModel, Generic[T]):
     rage_case: RageCase
