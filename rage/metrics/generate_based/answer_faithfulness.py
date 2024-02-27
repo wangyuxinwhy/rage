@@ -8,7 +8,7 @@ from rage.models import RageClassifier, RageClassifierKwargs
 from rage.results import FaithfulnessResult
 
 default_faithfulness_instruction = (
-    "You are tasked to evaluate whether the generated answer is fully supported by the retrieved context."
+    "You are tasked to evaluate whether the key point in generated answer is supported by the retrieved context."
 )
 
 
